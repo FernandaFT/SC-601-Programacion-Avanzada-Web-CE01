@@ -1,0 +1,60 @@
+﻿@model UsuarioModel
+@{
+    Layout = "_LayoutExterno";
+}
+
+<div class="row justify-content-center">
+    <div class="page-header">
+        <a asp-action="Index" asp-controller="Home"
+           class="btn btn-gradient-danger btn-rounded btn-fw">
+            <i class="mdi mdi-arrow-left"></i>
+            Ir al Inicio
+        </a>
+    </div>
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card bg-gradient-info card-img-holder text-white">
+            <div class="card-body">
+
+                <img src="~/image/circle.svg" class="card-img-absolute" alt="circle-image" />
+                <h4 class="card-title text-center text-white">Registro</h4>
+
+                @if (TempData["Mensaje"] != null)
+                {
+                    <div class="alert alert-@TempData["TipoMensaje"] text-center" role="alert">
+                        @TempData["Mensaje"]
+                    </div>
+                }
+
+                <form id="Registro" asp-action="Registro" asp-controller="Home" method="post">
+
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input @* asp-for="Nombre" *@ type="text" class="form-control form-control-xl" placeholder="Nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Especia</label>
+                        <input @* asp-for="Especie" *@ type="text" class="form-control form-control-xl" placeholder="Especie">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Raza</label>
+                        <input @* asp-for="Raza" *@ type="text" class="form-control form-control-xl" placeholder="Raza">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cliente</label>
+                        <select @* asp-for="IdCliente" asp-items="Model.Clientes" *@ class="form-select cliente-select">
+                            <option value="">Seleccione un cliente</option>
+                        </select>
+                        <span @* asp-validation-for="IdCliente" *@ class="text-warning"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient-danger btn-rounded btn-fw me-2">Procesar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/registrarm.js"></script>
