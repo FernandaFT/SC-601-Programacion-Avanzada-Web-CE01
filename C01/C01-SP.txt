@@ -1,0 +1,84 @@
+CREATE PROCEDURE spConsultarTiposHabitaciones
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        TipoHabitacion,
+        DescripcionTipo
+    FROM dbo.TiposHabitaciones
+    ORDER BY DescripcionTipo;
+END
+
+-----------------------------------------------
+
+CREATE PROCEDURE spConsultarReservas
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        R.FechaReserva,
+        R.MontoTotal,
+        T.DescripcionTipo,
+        R.NumeroHabitacion
+    FROM dbo.Reservas R
+    INNER JOIN dbo.TiposHabitaciones T
+        ON R.TipoHabitacion = T.TipoHabitacion
+    ORDER BY R.FechaReserva DESC;
+END
+
+---------------------------------------------------
+
+CREATE PROCEDURE spRegistrarReserva
+    @NumeroHabitacion varchar(10),
+    @MontoTotal decimal(10,2),
+    @TipoHabitacion int
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.TiposHabitaciones
+        WHERE TipoHabitacion = @TipoHabitacion
+    )
+    BEGIN
+        SELECT 
+            0 AS Codigo,
+            'El tipo de habitación seleccionado no existe.' AS Mensaje;
+        RETURN;
+    END
+
+    IF (
+        SELECT COUNT(1)
+        FROM dbo.Reservas
+        WHERE TipoHabitacion = @TipoHabitacion
+    ) >= 3
+    BEGIN
+        SELECT 
+            0 AS Codigo,
+            'No se pueden registrar más de 3 reservas por tipo de habitación.' AS Mensaje;
+        RETURN;
+    END
+
+    INSERT INTO dbo.Reservas
+    (
+        NumeroHabitacion,
+        FechaReserva,
+        MontoTotal,
+        TipoHabitacion
+    )
+    VALUES
+    (
+        @NumeroHabitacion,
+        GETDATE(),
+        @MontoTotal,
+        @TipoHabitacion
+    );
+
+    SELECT 
+        1 AS Codigo,
+        'La reserva se ha registrado correctamente.' AS Mensaje;
+END
+GO
