@@ -1,28 +1,30 @@
 ﻿$(function () {
 
-    $("#RegistroCliente").validate({
+    $("#Registro").validate({
         rules: {
-            Cedula: {
+            NumeroHabitacion: {
                 required: true
             },
-            Nombre: {
-                required: true
-            },
-            Correo: {
+            MontoTotal: {
                 required: true,
-                email: true
+                number: true,
+                min: 0.01
+            },
+            TipoHabitacion: {
+                required: true
             }
         },
         messages: {
-            Cedula: {
+            NumeroHabitacion: {
                 required: "Campo obligatorio"
             },
-            Nombre: {
-                required: "Campo obligatorio"
-            },
-            Correo: {
+            MontoTotal: {
                 required: "Campo obligatorio",
-                email: "Formato no válido"
+                number: "Debe digitar un monto válido",
+                min: "El monto debe ser mayor a cero"
+            },
+            TipoHabitacion: {
+                required: "Campo obligatorio"
             }
         },
         errorElement: "span",

@@ -1,4 +1,4 @@
-﻿@model UsuarioModel
+﻿@model ReservaModel
 @{
     Layout = "_LayoutExterno";
 }
@@ -11,12 +11,14 @@
             Ir al Inicio
         </a>
     </div>
+
     <div class="col-md-6 grid-margin stretch-card">
         <div class="card bg-gradient-info card-img-holder text-white">
             <div class="card-body">
 
                 <img src="~/image/circle.svg" class="card-img-absolute" alt="circle-image" />
-                <h4 class="card-title text-center text-white">Registro</h4>
+
+                <h4 class="card-title text-center text-white">Registro de Reserva</h4>
 
                 @if (TempData["Mensaje"] != null)
                 {
@@ -28,33 +30,45 @@
                 <form id="Registro" asp-action="Registro" asp-controller="Home" method="post">
 
                     <div class="form-group">
-                        <label>Nombre</label>
-                        <input @* asp-for="Nombre" *@ type="text" class="form-control form-control-xl" placeholder="Nombre">
+                        <label>Número de habitación</label>
+                        <input asp-for="NumeroHabitacion"
+                               type="text"
+                               class="form-control form-control-xl" />
+
+                        <span asp-validation-for="NumeroHabitacion" class="text-warning"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Especia</label>
-                        <input @* asp-for="Especie" *@ type="text" class="form-control form-control-xl" placeholder="Especie">
+                        <label>Monto total</label>
+                        <input asp-for="MontoTotal"
+                               type="number"
+                               step="0.01"
+                               min="0.01"
+                               class="form-control form-control-xl" />
+
+                        <span asp-validation-for="MontoTotal" class="text-warning"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Raza</label>
-                        <input @* asp-for="Raza" *@ type="text" class="form-control form-control-xl" placeholder="Raza">
-                    </div>
+                        <label>Tipo de habitación</label>
 
-                    <div class="form-group">
-                        <label>Cliente</label>
-                        <select @* asp-for="IdCliente" asp-items="Model.Clientes" *@ class="form-select cliente-select">
-                            <option value="">Seleccione un cliente</option>
+                        <select asp-for="TipoHabitacion"
+                                asp-items="Model.TiposHabitaciones"
+                                class="form-select cliente-select">
+                            <option value="">Seleccione un tipo de habitación</option>
                         </select>
-                        <span @* asp-validation-for="IdCliente" *@ class="text-warning"></span>
+
+                        <span asp-validation-for="TipoHabitacion" class="text-warning"></span>
                     </div>
 
-                    <button type="submit" class="btn btn-gradient-danger btn-rounded btn-fw me-2">Procesar</button>
+                    <button type="submit" class="btn btn-gradient-danger btn-rounded btn-fw me-2">
+                        Procesar
+                    </button>
                 </form>
 
             </div>
         </div>
     </div>
 </div>
-<script src="~/js/registrarm.js"></script>
+
+<script src="~/js/registrarH.js"></script>
